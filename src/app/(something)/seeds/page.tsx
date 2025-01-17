@@ -77,7 +77,6 @@ export default function SeedsPage() {
     return (
         <div className="m-2 lg:w-8/12 lg:mx-auto pt-4 lg:mt-48">
             <Card>
-                {mnemonic}
                 <CardHeader>
                     <CardTitle>Configure Phrases</CardTitle>
                     <CardDescription>{type === 'CREATE' ? 'Save' : 'Enter'} your phrases</CardDescription>

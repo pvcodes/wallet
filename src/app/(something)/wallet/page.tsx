@@ -98,7 +98,7 @@ export default function WalletPage() {
                         <ScrollArea className="h-[600px] pr-4">
                             <div className="grid gap-4">
                                 {wallets[token].map((wallet, index) => (
-                                    <Address key={`wallet${index}`} wallet={wallet} index={index} />
+                                    <Address key={`wallet${index}`} wallet={wallet} index={index} token={token} />
                                 ))}
                             </div>
                         </ScrollArea>

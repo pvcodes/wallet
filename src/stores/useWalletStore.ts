@@ -10,7 +10,8 @@ interface WalletState {
 		setMnemonic: (mnemonic: string) => void;
 		clearWallets: () => void;
 		setWallet: (token: TokenType, wallet: Wallet) => void;
-		setWalletsBulk: (wallets: Record<string, Wallet[]>) => void; // Updated type
+		setWalletsBulk: (wallets: Record<string, Wallet[]>) => void;
+		removeWallet: (token: TokenType, address: string) => void;
 	};
 }
 
@@ -29,7 +30,7 @@ const useWalletStore = create<WalletState>()(
 					setMnemonic: (mnemonic) =>
 						set(
 							() => ({ mnemonic }),
-							undefined, // Updated to false for better performance
+							undefined,
 							"wallet/setMnemonic"
 						),
 					setWallet: (token: TokenType, wallet) =>
@@ -40,7 +41,7 @@ const useWalletStore = create<WalletState>()(
 									[token]: [...state.wallets[token], wallet],
 								},
 							}),
-							undefined, // Updated to false for better performance
+							undefined,
 							"wallet/setWallet"
 						),
 					setWalletsBulk: (wallets) =>
@@ -48,7 +49,20 @@ const useWalletStore = create<WalletState>()(
 							() => ({ wallets }),
 							undefined,
 							"wallet/setWalletsBulk"
-						), // Added action name
+						),
+					removeWallet: (token: TokenType, address: string) =>
+						set(
+							(state) => ({
+								wallets: {
+									...state.wallets,
+									[token]: state.wallets[token].filter(
+										(wallet) => wallet.address !== address
+									),
+								},
+							}),
+							undefined,
+							"wallet/removeWallet"
+						),
 					clearWallets: () =>
 						set(
 							() => {
@@ -61,7 +75,7 @@ const useWalletStore = create<WalletState>()(
 									}, {} as Record<TokenType, Wallet[]>),
 								};
 							},
-							undefined, // Updated to false for better performance
+							undefined,
 							"wallet/clearWallets"
 						),
 				},

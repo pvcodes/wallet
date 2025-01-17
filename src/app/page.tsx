@@ -33,13 +33,12 @@ export default function RootPage() {
 
   return (
     <div className="mt-10 lg:mt-72">
-      {mnemonic}
       <div className="flex justify-center items-center flex-col">
         <Button className="p-10" onClick={handleCreateWallet}>
           {isCreatingWallet && <Loader2 className="animate-spin" />}
           <TypographyH3>Create a new Wallet</TypographyH3>
         </Button>
-        <Button onClick={() => router.push('/seeds')} variant='link'> <TypographyP>Add existing wallet using phrase</TypographyP></Button>
+        <Button onClick={() => router.push('/seeds')} variant='link' disabled> <TypographyP>Add existing wallet using phrase</TypographyP></Button>
       </div>
     </div>
   )

@@ -4,6 +4,9 @@ import { Copy, Trash } from "lucide-react"
 import { copyToClipboard, truncateString } from "@/lib/utils"
 import { Wallet } from "@/interface"
 import { TypographyP } from "./ui/Typography"
+import { useWalletActions } from "@/stores/useWalletStore"
+import { TokenType } from "@/constant"
+import { toast } from "sonner"
 
 const InfoSection = ({ label, value }: { label: string, value: string }) => (
     <div className="flex items-center justify-between">
@@ -26,19 +29,23 @@ const InfoSection = ({ label, value }: { label: string, value: string }) => (
 interface AddressProps {
     wallet: Wallet,
     index: number
+    token: TokenType
 
 }
 
-export default function Address({ wallet, index }: AddressProps) {
-    const handleRemoveWallet = () => {
+export default function Address({ wallet, index, token }: AddressProps) {
+    const { removeWallet } = useWalletActions()
+    const handleRemoveWallet = (token: TokenType, address: string) => {
         // TODO
+        removeWallet(token, address)
+        toast(`Removed wallet ${address}`)
     }
     return (
         <Card key={wallet.address}>
             <CardHeader>
                 <CardTitle className="flex justify-between">
                     <TypographyP>Wallet {index + 1}: {wallet.address}</TypographyP>
-                    <Button variant='outline' size='sm' onClick={handleRemoveWallet}>
+                    <Button variant='outline' size='sm' onClick={() => handleRemoveWallet(token, wallet.address)}>
                         <Trash className="h-2 w-2" />
                     </Button>
                 </CardTitle>
